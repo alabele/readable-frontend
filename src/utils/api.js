@@ -1,5 +1,5 @@
-const url = "http://localhost:3001/"
-const auth = { headers: { 'Authorization': 'howdy-from-atx' } }
+export const url = "http://localhost:3001/"
+export const auth = { headers: { 'Authorization': 'howdy-from-atx' } }
 
 export const fetchCategories = () =>
   fetch(url + "categories", auth )
@@ -19,4 +19,14 @@ export const fetchPosts = () =>
 .then((posts) => {
    console.log('posts', posts);
    return posts
+});
+
+export const fetchMyCategory = (category) =>
+  fetch(url + category + "posts", auth )
+  .then((res) => {
+  return res.json()
+  })
+.then((categories) => {
+   console.log(categories.categories);
+   return categories.categories
 });

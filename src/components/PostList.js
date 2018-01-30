@@ -1,8 +1,11 @@
 import React  from 'react'
 
-function PostList(props) {
-
-		const {posts} = props
+function PostList({posts,orderBy}) {
+  console.log("Post List Props", posts)
+		if (posts === undefined) {
+      return <p>No posts found :(</p>
+    }
+  else {
 		return (
       <ol className="posts-list">
         {posts.map((post) =>
@@ -18,6 +21,7 @@ function PostList(props) {
           )}
       </ol>
 		)
+  }
 }
 
 

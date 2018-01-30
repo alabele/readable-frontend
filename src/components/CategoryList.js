@@ -1,18 +1,23 @@
 import React  from 'react'
 import {Link} from 'react-router-dom'
 
-function CategoryList(props) {
-
-		const {categories} = props
+function CategoryList({posts, categories, orderBy}) {
+   // const cat = categories.list
+    //console.log("Category List Props", categories)
+  if (categories === undefined) {
+    return <p>No categories found :(</p>
+  }
+else {
 		return (
-      <ul className="categories-list">
+      //<div>Hello World</div>
+     <ul className="categories-list">
         <Link
             to="/" key="all">
             <li>
               All
             </li>
           </Link>
-        {categories.map((category) =>
+       {categories.map((category) =>
           <Link
             to={category.path} key={category.name}>
             <li>
@@ -22,6 +27,7 @@ function CategoryList(props) {
           )}
       </ul>
 		)
+  }
 }
 
 
