@@ -1,6 +1,6 @@
 import {url, auth} from '../utils/api'
 import fetch from 'cross-fetch'
-//export const GET_CATEGORY_POSTS = "GET_CATEGORY_POSTS"
+export const GET_CATEGORY_POSTS = "GET_CATEGORY_POSTS"
 export const RECEIVE_POSTS = "RECEIVE_POSTS"
 //export const FETCH_CATEGORIES = "FETCH_CATEGORIES"
 export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
@@ -24,7 +24,7 @@ export const receiveCat = categories => ({
   type: RECEIVE_CATEGORIES,
   categories
 });
-////////////////END WORKING SECTION
+
 
 export function fetchPosts() {
   return dispatch => {
@@ -42,13 +42,25 @@ export const receivePosts = posts => ({
 });
 
 
-// When user uses dropdown menu to filter posts by category
-// export function getCategoryPosts ({category}) {
-//   return {
-//     type: GET_CATEGORY_POSTS,
-//     category,
-//   }
-// }
+////////////////END WORKING SECTION
+
+//When user uses dropdown menu to filter posts by category
+export const getCategoryPosts = categoryPosts => ({
+  type: GET_CATEGORY_POSTS,
+  categoryPosts
+});
+
+export function fetchCategoryPosts(category) {
+  return dispatch => {
+    return fetch(url + category + "posts", auth)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(getCategoryPosts(json)))
+	}
+}
+
+
 // When user adds a new post
 // export function addPost () {
 //   return {
@@ -56,28 +68,6 @@ export const receivePosts = posts => ({
 //   }
 // }
 
-
-
-
-
-// When user adds a new post
-// export function receiveAllPosts(json) {
-//   return {
-//     type: RECEIVE_POSTS,
-//     posts: json.data.children.map(child => child.data),
-//   }
-// }
-
-
-
-// export function fetchPostsIfNeeded() {
-//   return dispatch => {
-//     //dispatch(requestPosts())
-//     return fetch(url + "posts", auth)
-//       .then(response => response.json())
-//       .then(json => dispatch(receiveAllPosts(json)))
-//   }
-// }
 
 
 /*NOT WORKING*/

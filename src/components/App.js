@@ -22,23 +22,57 @@ class App extends Component {
     console.log( "Dispatch", dispatch)
   }
 
+modifyOrder(filter) {
+  this.setState({orderBy: filter});
+}
+
+fetchPostsByCategory(category) {
+  console.log("WE DID IT!" + category)
+}
+
 
   render() {
     console.log("Props", this.props)
+    console.log("ORDER BY STATE", this.state.orderBy)
+    let cat1 = this.props.categories
     //console.log(this.props.categories.list)
+    let categoryUrls = []
+    if (cat1 != undefined) {
+       categoryUrls = cat1
+    }
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-
+        {console.log("MY CATEGORIES", cat1)}
         <Route path="/" exact render={() => (
            <CategoryPage
               posts={this.props.posts.list}
               orderBy={this.state.orderBy}
               categories={this.props.categories}
+              fetchCategoryPosts= {(category)=> {
+                this.fetchPostsByCategory(category)
+              }}
+              modifyOrder={(filter)=> {
+                this.modifyOrder(filter)
+              }}
             />
          )} />
+        <Route path="/redux" render={() => (
+          <div>
+           <h1 >HOWDAY YOU FOUND REDUX</h1>
+           <CategoryPage
+              posts={this.props.posts.list}
+              orderBy={this.state.orderBy}
+              categories={this.props.categories}
+              modifyOrder={(filter)=> {
+                this.modifyOrder(filter)
+              }}
+            />
+            </div>
+         )} />
+
       </div>
     );
   }

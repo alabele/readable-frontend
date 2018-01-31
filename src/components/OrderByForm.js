@@ -5,11 +5,15 @@ state = {
   value: this.props.orderBy
 }
 
+
+
 // When select value is changed, update selected value
 handleChange(id, event) {
   this.setState({ value: event });
-  //this.props.myFunc(id, event, myState)
+  //this.props.setState({orderBy: event})
+  this.props.myFunc(event)
 }
+
 
   render() {
     //const myShelf = this.props.shelfBook
@@ -19,7 +23,10 @@ handleChange(id, event) {
           <option value="default" disabled>Order by...</option>
           <option value="timestamp">Date Published</option>
           <option value="voteScore">Vote Score</option>
+          <option value="title">Title</option>
+          <option value="category">Category</option>
         </select>
+        {console.log("Shelf State", this.state.value)}
         </div>
     );
   }

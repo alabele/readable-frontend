@@ -1,7 +1,7 @@
 import React  from 'react'
 import {Link} from 'react-router-dom'
 
-function CategoryList({posts, categories, orderBy}) {
+function CategoryList({posts, categories, orderBy, myFunc}) {
    // const cat = categories.list
     //console.log("Category List Props", categories)
   if (categories === undefined) {
@@ -20,13 +20,13 @@ else {
        {categories.map((category) =>
           <Link
             to={category.path} key={category.name}>
-            <li>
+            <li onClick={(event)=> myFunc(category.name)}>
               {category.name}
             </li>
           </Link>
           )}
       </ul>
-		)
+		);
   }
 }
 

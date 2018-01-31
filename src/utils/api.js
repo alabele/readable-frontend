@@ -21,12 +21,12 @@ export const fetchPosts = () =>
    return posts
 });
 
-export const fetchMyCategory = (category) =>
-  fetch(url + category + "posts", auth )
-  .then((res) => {
-  return res.json()
-  })
-.then((categories) => {
-   console.log(categories.categories);
-   return categories.categories
-});
+// export const fetchMyCategory = (category) =>
+//   fetch(url + category + "posts", auth )
+//   .then((res) => {
+//   return res.json()
+//   })
+// .then((categories) => {
+//    console.log(categories.categories);
+//    return categories.categories
+// });

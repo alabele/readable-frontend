@@ -10,6 +10,7 @@ function CategoryPage(props) {
         <div className="all-categories">
           <CategoryList
             categories={props.categories}
+            myFunc={props.fetchCategoryPosts}
           />
         </div>
         <div className="add-post">
@@ -22,6 +23,7 @@ function CategoryPage(props) {
           <h1>Check out these awesome posts!</h1>
           <OrderByForm
             orderBy={props.orderBy}
+            myFunc={props.modifyOrder}
           />
           <PostList
             posts={props.posts}
