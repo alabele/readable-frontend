@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 
 import {
-  //GET_CATEGORY_POSTS,
-  //ADD_POST,
+  GET_CATEGORY_POSTS,
+  ADD_POST,
   RECEIVE_POSTS,
   //FETCH_CATEGORIES,
   RECEIVE_CATEGORIES,
@@ -11,12 +11,22 @@ import {
 
 
 function posts (state = {} , action) {
-  const {posts} = action
+  const {posts, newPost} = action
   switch (action.type) {
     case RECEIVE_POSTS:
       return {
         ...state,
         list: posts,
+      }
+    case GET_CATEGORY_POSTS:
+      return {
+        ...state,
+        list: posts,
+      }
+    case ADD_POST:
+      return {
+        ...state,
+        list: state.list.concat(newPost)
       }
     default :
       return state

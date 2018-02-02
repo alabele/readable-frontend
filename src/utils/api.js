@@ -1,6 +1,7 @@
 export const url = "http://localhost:3001/"
 export const auth = { headers: { 'Authorization': 'howdy-from-atx' } }
 
+
 export const fetchCategories = () =>
   fetch(url + "categories", auth )
   .then((res) => {
@@ -30,3 +31,13 @@ export const fetchPosts = () =>
 //    console.log(categories.categories);
 //    return categories.categories
 // });
+
+export const fetchSinglePost = (id) =>
+  fetch(url + "posts/" + id, auth)
+  .then((res) => {
+  return res.json()
+  })
+.then((post) => {
+   console.log('single post', post);
+   return post
+});

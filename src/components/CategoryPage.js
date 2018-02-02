@@ -4,13 +4,18 @@ import PostList from './PostList'
 import OrderByForm from './OrderByForm'
 import {Link} from 'react-router-dom'
 
-function CategoryPage(props) {
+function CategoryPage({posts, orderBy, categories, modifyOrder, fetchCategoryPosts, path}) {
+    // if (path === 'default') {
+
+    // } else {
+    //   fetchCategoryPosts("howdy")
+    // }
     return (
       <div className="category-page">
         <div className="all-categories">
           <CategoryList
-            categories={props.categories}
-            myFunc={props.fetchCategoryPosts}
+            categories={categories}
+            myFunc={fetchCategoryPosts}
           />
         </div>
         <div className="add-post">
@@ -22,12 +27,12 @@ function CategoryPage(props) {
         <div className="all-posts">
           <h1>Check out these awesome posts!</h1>
           <OrderByForm
-            orderBy={props.orderBy}
-            myFunc={props.modifyOrder}
+            orderBy={orderBy}
+            myFunc={modifyOrder}
           />
           <PostList
-            posts={props.posts}
-            orderBy={props.orderBy}
+            posts={posts}
+            orderBy={orderBy}
           />
         </div>
       </div>

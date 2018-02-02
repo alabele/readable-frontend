@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
 //import {fetchCategories, fetchPosts} from '../utils/api'
-import {fetchCategories, fetchPosts} from '../actions'
+import {fetchCategories, fetchPosts, fetchCategoryPosts, createNewPost} from '../actions'
 import CategoryPage from './CategoryPage'
+import SinglePost from './SinglePost'
+import AddPost from './AddPost'
 import {Route} from 'react-router-dom'
 import { connect } from 'react-redux'
 //import {Link, Route, Switch} from 'react-router-dom'
@@ -27,9 +29,16 @@ modifyOrder(filter) {
 }
 
 fetchPostsByCategory(category) {
+   //const { dispatch } = this.props
+   //dispatch(fetchCategoryPosts(category))
   console.log("WE DID IT!" + category)
 }
 
+createPost(title, body, author, category, id, timestamp) {
+  const { dispatch } = this.props
+    dispatch(createNewPost(title, body, author, category, id, timestamp))
+    console.log(title)
+}
 
   render() {
     console.log("Props", this.props)
@@ -57,9 +66,10 @@ fetchPostsByCategory(category) {
               modifyOrder={(filter)=> {
                 this.modifyOrder(filter)
               }}
+              path='default'
             />
          )} />
-        <Route path="/redux" render={() => (
+        <Route path="/redux"  exact render={() => (
           <div>
            <h1 >HOWDAY YOU FOUND REDUX</h1>
            <CategoryPage
@@ -68,6 +78,42 @@ fetchPostsByCategory(category) {
               categories={this.props.categories}
               modifyOrder={(filter)=> {
                 this.modifyOrder(filter)
+              }}
+              fetchCategoryPosts= {(category)=> {
+                this.fetchPostsByCategory(category)
+              }}
+              path='redux'
+            />
+            </div>
+         )} />
+        <Route path="/react" exact render={() => (
+          <div>
+           <h1 >HOWDAY YOU FOUND REACT</h1>
+           <CategoryPage
+              posts={this.props.posts.list}
+              orderBy={this.state.orderBy}
+              categories={this.props.categories}
+              modifyOrder={(filter)=> {
+                this.modifyOrder(filter)
+              }}
+              fetchCategoryPosts= {(category)=> {
+                this.fetchPostsByCategory(category)
+              }}
+              path='react'
+            />
+            </div>
+         )} />
+        <Route path="/post/8xf0y6ziyjabvozdd253nd" exact render={() => (
+          <div>
+           <SinglePost
+            />
+            </div>
+         )} />
+        <Route path="/add-post" exact render={() => (
+          <div>
+           <AddPost
+              createPost={(title, body, author, category, id, timestamp)=> {
+                this.createPost(title, body, author, category, id, timestamp)
               }}
             />
             </div>

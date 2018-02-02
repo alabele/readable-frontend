@@ -1,5 +1,5 @@
 import React  from 'react'
-
+import {Link} from 'react-router-dom'
 //With help from: https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
 function dynamicSort(filter) {
@@ -47,7 +47,7 @@ function PostList({posts,orderBy}) {
         {showingPosts.map((post) =>
             <li key={post.id}>
               <span className="post-category">{post.category}</span>
-              <h4>{post.title}</h4>
+              <Link to="/"><h4>{post.title}</h4></Link>
               <span className="post-timestamp">{post.timestamp}</span>
               <p>{post.body}</p>
               <span>Vote Score: {post.voteScore}</span>
