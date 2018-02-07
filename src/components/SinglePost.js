@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Modal from 'react-modal'
 import {fetchSinglePost} from '../utils/api'
+import {fetchComments} from '../actions'
+import PostComments from './PostComments'
 
 class SinglePost extends Component {
   state = {
@@ -16,11 +18,17 @@ getPostID() {
 }
 
 componentDidMount() {
+  //Get the Post ID from the URL
   const path = window.location.pathname.split('/')[2]
+  //Set local state for postId
   this.setState({postId: path})
+  //Fetch post using API, and set local state of currentPost
   fetchSinglePost(path).then((post)=> {
     this.setState({currentPost: post})
   })
+  //Fetch comments
+  const { dispatch } = this.props
+   dispatch(fetchComments(path))
 }
 
 openFoodModal = () => this.setState(() => ({ foodModalOpen: true }))
@@ -30,6 +38,8 @@ closeFoodModal = () => this.setState(() => ({ foodModalOpen: false }))
     const { foodModalOpen, loadingFood, food, ingredientsModalOpen, currentPost } = this.state
     let theDate = Date(currentPost.timestamp)
     theDate = theDate.toString()
+    const {comments} = this.props
+    let commentsArray = []
 
     return (
       <div className='container'>
@@ -64,6 +74,13 @@ closeFoodModal = () => this.setState(() => ({ foodModalOpen: false }))
               <span>Vote Score: {currentPost.voteScore}</span>
               <span>There are {currentPost.commentCount} Comment(s)</span>
               {console.log("Timestamp", currentPost.timestamp)}
+         </div>
+         <div className="post-comments">
+           <PostComments
+              dispatch={this.props.dispatch}
+              postId={this.state.postId}
+              comments={this.props.comments}
+           />
          </div>
          <Modal
           className='modal'

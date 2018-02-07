@@ -6,6 +6,7 @@ export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
 export const GET_COMMENTS = "GET_COMMENTS"
 export const ADD_POST = "ADD_POST"
+export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
 
 
 
@@ -45,6 +46,25 @@ export const receivePosts = posts => ({
 
 
 ////////////////END WORKING SECTION
+
+
+export const receiveComments = comments => ({
+  type: RECEIVE_COMMENTS,
+  comments,
+});
+
+export function fetchComments(id) {
+	console.log("COMMENTS", id)
+  return dispatch => {
+    return fetch(url + "posts/" + id +"/comments", auth)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(receiveComments(json)))
+	}
+
+}
+
 
 //When user uses dropdown menu to filter posts by category
 export const getCategoryPosts = posts => ({

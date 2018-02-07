@@ -21,7 +21,7 @@ class App extends Component {
     const { dispatch } = this.props
     dispatch(fetchCategories())
     dispatch(fetchPosts())
-    console.log( "Dispatch", dispatch)
+    //console.log( "Dispatch", dispatch)
   }
 
 modifyOrder(filter) {
@@ -32,12 +32,6 @@ fetchPostsByCategory(category) {
    //const { dispatch } = this.props
    //dispatch(fetchCategoryPosts(category))
   console.log("WE DID IT!" + category)
-}
-
-createPost(title, body, author, category, id, timestamp) {
-  const { dispatch } = this.props
-    dispatch(createNewPost(title, body, author, category, id, timestamp))
-    console.log(title)
 }
 
   render() {
@@ -106,6 +100,8 @@ createPost(title, body, author, category, id, timestamp) {
         <Route path="/post/8xf0y6ziyjabvozdd253nd" exact render={() => (
           <div>
            <SinglePost
+              dispatch = {this.props.dispatch}
+              comments={this.props.comments}
             />
             </div>
          )} />
@@ -115,6 +111,8 @@ createPost(title, body, author, category, id, timestamp) {
               createPost={(title, body, author, category, id, timestamp)=> {
                 this.createPost(title, body, author, category, id, timestamp)
               }}
+              categories={this.props.categories}
+              dispatch = {this.props.dispatch}
             />
             </div>
          )} />
@@ -125,10 +123,12 @@ createPost(title, body, author, category, id, timestamp) {
 }
 
 
-function mapStateToProps({categories, posts}) {
+function mapStateToProps({categories, posts, comments}) {
   return {
     categories: categories.list ,
     posts: posts,
+    comments: comments.list,
+    //Going to need to add comments as an objec to each postID
   }
 }
 

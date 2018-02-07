@@ -6,12 +6,14 @@ import {
   RECEIVE_POSTS,
   //FETCH_CATEGORIES,
   RECEIVE_CATEGORIES,
+  RECEIVE_COMMENTS,
 } from '../actions'
 
 
 
 function posts (state = {} , action) {
-  const {posts, newPost} = action
+  const {posts, newPost } = action
+  // const {myPost = state.list.filter(c =>c.id === id)}
   switch (action.type) {
     case RECEIVE_POSTS:
       return {
@@ -49,7 +51,23 @@ function categories (state = {} , action) {
   }
 }
 
+
+function comments (state = {} , action) {
+  const {comments} = action
+  switch (action.type) {
+    case RECEIVE_COMMENTS:
+      return {
+        ...state,
+        list: comments
+      }
+    default :
+      return state
+  }
+}
+
+
 export default combineReducers({
   posts,
   categories,
+  comments,
 })
