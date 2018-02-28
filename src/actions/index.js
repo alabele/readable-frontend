@@ -6,6 +6,7 @@ export const RECEIVE_POSTS = "RECEIVE_POSTS"
 export const RECEIVE_CATEGORIES = "RECEIVE_CATEGORIES"
 export const GET_COMMENTS = "GET_COMMENTS"
 export const ADD_POST = "ADD_POST"
+export const UPDATE_POST = "UPDATE_POST"
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
 
 
@@ -79,17 +80,9 @@ export function fetchCategoryPosts(category) {
 			return response.json()
 			})
 		.then(json => dispatch(getCategoryPosts(json)))
+		//.then(postData => console.log(postData))
 	}
 }
-
-// export const addPost = ( title, body, author, category, id, timestamp ) => ({
-//   type: ADD_POST,
-//   	title,
-//     body,
-//     author,
-//     category,
-//     id,
-// });
 
 export const addPost = ( newPost ) => ({
   type: ADD_POST,
@@ -124,6 +117,36 @@ export function createNewPost(title, body, author, category, id, timestamp) {
 		.then(postData => console.log(postData))
 
 
+	}
+}
+
+
+export const updatePost = ( newPost ) => ({
+  type: UPDATE_POST,
+  	newPost
+});
+
+export function editPost(title, body, id) {
+	const postData = {
+		title: title,
+		body: body,
+	}
+	const fetchData = {
+		method: 'PUT',
+		body: JSON.stringify(postData),
+		headers: {
+			'Authorization': 'howdy-from-atx',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			 },
+	}
+  return dispatch => {
+    return fetch(url + "posts/" + id, fetchData)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(addPost(json)))
+		.then(postData => console.log(postData))
 	}
 }
 

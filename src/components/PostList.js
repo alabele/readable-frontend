@@ -47,7 +47,7 @@ function PostList({posts,orderBy}) {
         {showingPosts.map((post) =>
             <li key={post.id}>
               <span className="post-category">{post.category}</span>
-              <Link to="/"><h4>{post.title}</h4></Link>
+              <Link to={'/posts/' + post.id}><h4>{post.title}</h4></Link>
               <span className="post-timestamp">{post.timestamp}</span>
               <p>{post.body}</p>
               <span>Vote Score: {post.voteScore}</span>

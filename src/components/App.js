@@ -8,7 +8,8 @@ import SinglePost from './SinglePost'
 import AddPost from './AddPost'
 import {Route} from 'react-router-dom'
 import { connect } from 'react-redux'
-//import {Link, Route, Switch} from 'react-router-dom'
+import {Link, Switch} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 class App extends Component {
   state = {
@@ -29,8 +30,8 @@ modifyOrder(filter) {
 }
 
 fetchPostsByCategory(category) {
-   //const { dispatch } = this.props
-   //dispatch(fetchCategoryPosts(category))
+  const { dispatch } = this.props
+ // dispatch(fetchCategoryPosts(category))
   console.log("WE DID IT!" + category)
 }
 
@@ -48,6 +49,10 @@ fetchPostsByCategory(category) {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
+        <Link
+            to="/create">
+            Add a post
+        </Link>
         {console.log("MY CATEGORIES", cat1)}
         <Route path="/" exact render={() => (
            <CategoryPage
@@ -80,7 +85,7 @@ fetchPostsByCategory(category) {
             />
             </div>
          )} />
-        <Route path="/react" exact render={() => (
+        <Route path="/react"  render={() => (
           <div>
            <h1 >HOWDAY YOU FOUND REACT</h1>
            <CategoryPage
@@ -97,7 +102,7 @@ fetchPostsByCategory(category) {
             />
             </div>
          )} />
-        <Route path="/post/8xf0y6ziyjabvozdd253nd" exact render={() => (
+        <Route path="/posts/"  render={() => (
           <div>
            <SinglePost
               dispatch = {this.props.dispatch}
@@ -105,7 +110,7 @@ fetchPostsByCategory(category) {
             />
             </div>
          )} />
-        <Route path="/add-post" exact render={() => (
+        <Route path="/create"  render={() => (
           <div>
            <AddPost
               createPost={(title, body, author, category, id, timestamp)=> {
@@ -133,6 +138,6 @@ function mapStateToProps({categories, posts, comments}) {
 }
 
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
-)(App)
+)(App))

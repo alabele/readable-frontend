@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import {
   GET_CATEGORY_POSTS,
   ADD_POST,
+  UPDATE_POST,
   RECEIVE_POSTS,
   //FETCH_CATEGORIES,
   RECEIVE_CATEGORIES,
@@ -30,6 +31,19 @@ function posts (state = {} , action) {
         ...state,
         list: state.list.concat(newPost)
       }
+       case UPDATE_POST:
+      // return {
+      //   ...state,
+      //   list: state.list.concat(newPost)
+      // }
+        return state.map((todo, index) => {
+          if (index === action.index) {
+            return Object.assign({}, todo, {
+              completed: !todo.completed
+            })
+          }
+          return todo
+        })
     default :
       return state
   }

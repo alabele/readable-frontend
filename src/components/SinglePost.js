@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import {fetchSinglePost} from '../utils/api'
 import {fetchComments} from '../actions'
 import PostComments from './PostComments'
+import {Link} from 'react-router-dom'
 
 class SinglePost extends Component {
   state = {
@@ -47,11 +48,10 @@ closeFoodModal = () => this.setState(() => ({ foodModalOpen: false }))
         <div className='nav'>
            <h1 className='header'>Singe Post Page {this.state.postId}</h1>
            {console.log("Single Post", this.state.currentPost)}
-           <button
-             className='edit-post'
-             onClick={this.openFoodModal}>
-               Edit Post
-           </button>
+           <Link to={'/create/' + currentPost.id}>
+              <button className='edit-post'>Edit Post
+              </button>
+           </Link>
            <button
              className='delete-post'
              onClick={this.openFoodModal}>

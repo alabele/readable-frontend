@@ -1,17 +1,42 @@
 import React, {Component} from 'react'
 import {createNewPost} from "../actions"
-import uuid from 'uuid'
+import {fetchSinglePost} from '../utils/api'
+//import 'uuid/v4' from 'uuid'
 
+const uuidv4 = require('uuid/v4');
 
 class AddPost extends Component {
+
 	state = {
 		titleValue: '',
 		bodyValue: '',
 		authorValue: '',
 		categoryValue: 'none',
-
+		editPost: false,
+		//editPostId: '',
+		postId: uuidv4(),
+		postDate: Date.now()
 	}
 
+componentDidMount() {
+	//Get the Post ID from the URL
+  const path = window.location.pathname.split('/')[2]
+  if (path !== undefined) {
+  	fetchSinglePost(path).then((post)=> {
+  	  this.setState({
+  	  	editPost: true,
+   		postId:path,
+  		titleValue: post.title,
+		bodyValue: post.body,
+		authorValue: post.author,
+		categoryValue: post.category,
+		postDate: post.timestamp,
+  	  })
+   })
+  }
+}
+
+// Add post to Redux Store
 createPost(title, body, author, category, id, timestamp) {
   const { dispatch } = this.props
     dispatch(createNewPost(title, body, author, category, id, timestamp))
@@ -40,8 +65,8 @@ createPost(title, body, author, category, id, timestamp) {
 	  }
 
 	render() {
-		const date = Date.now()
-		const {titleValue, bodyValue, authorValue, categoryValue} = this.state
+		//const date = Date.now()
+		const {titleValue, bodyValue, authorValue, categoryValue, postDate, postId} = this.state
 		const uuidv4 = require('uuid/v4');
 		let myuuid = uuidv4()
 		// Thx React Docs! https://reactjs.org/docs/conditional-rendering.html
@@ -56,7 +81,7 @@ createPost(title, body, author, category, id, timestamp) {
 		      		<select value={categoryValue} name="categoryValue" onChange={this.handleInputChange}>
 			          <option value="none" disabled>Select Category</option>
 			          {this.props.categories.map((category) =>
-				          <option value={category.path}>{category.name}</option>
+				          <option key={category.path} value={category.path}>{category.name}</option>
 			          )}
 			        </select>;
 		    }
@@ -73,7 +98,7 @@ createPost(title, body, author, category, id, timestamp) {
       				Post:
           			<textarea type="text" value={bodyValue} name="bodyValue" onChange={this.handleInputChange} />
         		</label>
-				<button onClick={(event)=> this.createPost(titleValue, bodyValue, authorValue, categoryValue, myuuid, date)}>SUBMIT</button>
+				<button onClick={(event)=> this.createPost(titleValue, bodyValue, authorValue, categoryValue, postId, postDate)}>SUBMIT</button>
 			</div>
 			)
 	}

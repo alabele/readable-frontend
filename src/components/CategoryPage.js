@@ -5,10 +5,11 @@ import OrderByForm from './OrderByForm'
 import {Link} from 'react-router-dom'
 
 function CategoryPage({posts, orderBy, categories, modifyOrder, fetchCategoryPosts, path}) {
+    // let new_posts = []
     // if (path === 'default') {
 
     // } else {
-    //   fetchCategoryPosts("howdy")
+    //   new_posts = fetchCategoryPosts("react")
     // }
     return (
       <div className="category-page">
@@ -20,7 +21,7 @@ function CategoryPage({posts, orderBy, categories, modifyOrder, fetchCategoryPos
         </div>
         <div className="add-post">
           <Link
-            to="/add-post">
+            to="/create">
             Add a post
           </Link>
         </div>
@@ -32,6 +33,7 @@ function CategoryPage({posts, orderBy, categories, modifyOrder, fetchCategoryPos
           />
           <PostList
             posts={posts}
+            //posts = {new_posts}
             orderBy={orderBy}
           />
         </div>
