@@ -8,8 +8,12 @@ export const GET_COMMENTS = "GET_COMMENTS"
 export const ADD_POST = "ADD_POST"
 export const UPDATE_POST = "UPDATE_POST"
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS"
-
-
+export const DELETE_POST = "DELETE_POST"
+export const ADD_COMMENT = "ADD_COMMENT"
+export const UPDATE_COMMENT = "UPDATE_COMMENT"
+export const DELETE_COMMENT = "DELETE_COMMENT"
+export const VOTE_COMMENT = "VOTE_COMMENT"
+export const VOTE_POST = "VOTE_POST"
 
 
 ////////////// THIS IS WORKING IN COMPONENTDIDMOUNT!
@@ -84,6 +88,16 @@ export function fetchCategoryPosts(category) {
 	}
 }
 
+// export const addPost = ( title, body, author, category, id, timestamp ) => ({
+//   type: ADD_POST,
+//   	title,
+//   	body,
+//   	author,
+//   	category,
+//   	id,
+//   	timestamp
+// });
+
 export const addPost = ( newPost ) => ({
   type: ADD_POST,
   	newPost
@@ -120,16 +134,19 @@ export function createNewPost(title, body, author, category, id, timestamp) {
 	}
 }
 
-
-export const updatePost = ( newPost ) => ({
+//EDIT POST
+export const updatePost = ( { title, body, id } ) => ({
   type: UPDATE_POST,
-  	newPost
+  	title,
+  	body,
+  	id
 });
 
 export function editPost(title, body, id) {
 	const postData = {
 		title: title,
 		body: body,
+		id: id
 	}
 	const fetchData = {
 		method: 'PUT',
@@ -145,32 +162,197 @@ export function editPost(title, body, id) {
   		.then((response) => {
 			return response.json()
 			})
-		.then(json => dispatch(addPost(json)))
-		.then(postData => console.log(postData))
+		//.then(json => dispatch(addPost(json)))
+		.then(json => dispatch(updatePost(json)))
+		//.then(postData => console.log("UPDATE POST" , postData))
+	}
+}
+
+//DELETE POST
+
+export const deletePost = ( post) => ({
+  type: DELETE_POST,
+  post
+});
+
+export function deleteCurrentPost(id) {
+	const postData = {
+		deleted: true,
+	}
+	const fetchData = {
+		method: 'DELETE',
+		body: JSON.stringify(postData),
+		headers: {
+			'Authorization': 'howdy-from-atx',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			 },
+	}
+  return dispatch => {
+    return fetch(url + "posts/" + id, fetchData)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(deletePost(json)))
+		//.then(postData => console.log("DELETED POST", postData))
+	}
+
+}
+
+// ADD COMMENT
+
+export const addComment = ( newComment ) => ({
+  type: ADD_COMMENT,
+  	newComment
+});
+
+export function createNewComment(body, author, commentId, parentId, timestamp) {
+	const commentData = {
+		body: body,
+		author: author,
+		id: commentId,
+		parentId: parentId,
+		timestamp: timestamp,
+		voteScore: 0,
+		deleted: false,
+		parentDeleted: false
+	}
+	const fetchData = {
+		method: 'POST',
+		body: JSON.stringify(commentData),
+		headers: {
+			'Authorization': 'howdy-from-atx',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			 },
+	}
+  return dispatch => {
+    return fetch(url + "comments", fetchData)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(addComment(json)))
+		.then(commentData => console.log("COMMENT DATA",commentData))
+	}
+}
+
+//EDIT COMMENT
+export const updateComment = ( { id, body, timestamp } ) => ({
+  type: UPDATE_COMMENT,
+  	id,
+  	body,
+  	timestamp
+});
+
+export function editExistingComment(id, body, timestamp) {
+	const commentData = {
+		timestamp: timestamp,
+		body: body,
+	}
+	const fetchData = {
+		method: 'PUT',
+		body: JSON.stringify(commentData),
+		headers: {
+			'Authorization': 'howdy-from-atx',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			 },
+	}
+  return dispatch => {
+    return fetch(url + "comments/" + id, fetchData)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(updateComment(json)))
+		.then(commentData => console.log("WE EDITED THIS COMMENT", commentData))
+	}
+}
+
+//DELETE COMMENT
+export const deleteExistingComment = ( { id } ) => ({
+  type: DELETE_COMMENT,
+  	id,
+});
+
+export function deleteComment(id) {
+	const commentData = {
+		deleted: true,
+	}
+	const fetchData = {
+		method: 'DELETE',
+		body: JSON.stringify(commentData),
+		headers: {
+			'Authorization': 'howdy-from-atx',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			 },
+	}
+  return dispatch => {
+    return fetch(url + "comments/" + id, fetchData)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(deleteExistingComment(json)))
 	}
 }
 
 
-// When user adds a new post
-// export function addPost () {
-//   return {
-//     type: ADD_POST,
-//   }
-// }
+//VOTE COMMENT
+export const voteOnComment = ( {id, vote } ) => ({
+  type: VOTE_COMMENT,
+  	id,
+  	vote,
+});
 
+export function voteComment(id, vote) {
+	const commentData = {
+		option: vote,
+	}
+	const fetchData = {
+		method: 'POST',
+		body: JSON.stringify(commentData),
+		headers: {
+			'Authorization': 'howdy-from-atx',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			 },
+	}
+  return dispatch => {
+    return fetch(url + "comments/" + id, fetchData)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(voteOnComment(json)))
+		.then(console.log("VOTE", vote))
+	}
+}
 
+//VOTE Post
+export const voteOnPost = ( {id, vote } ) => ({
+  type: VOTE_POST,
+  	id,
+  	vote,
+});
 
-/*NOT WORKING*/
-
-// export function fetchAllCategories (json) {
-//   return {
-//     type: FETCH_CATEGORIES,
-//     categories: json,
-//   }
-// }
-
-// export const fetchCat = () => dispatch => (
-//   fetch(url + "categories", auth)
-//       .fetchCat()
-//       .then(categories => dispatch(receiveCat(categories)))
-// );
+export function votePost(id, vote) {
+	const commentData = {
+		option: vote,
+	}
+	const fetchData = {
+		method: 'POST',
+		body: JSON.stringify(commentData),
+		headers: {
+			'Authorization': 'howdy-from-atx',
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			 },
+	}
+  return dispatch => {
+    return fetch(url + "posts/" + id, fetchData)
+  		.then((response) => {
+			return response.json()
+			})
+		.then(json => dispatch(voteOnPost(json)))
+		.then(console.log("POST VOTE", vote))
+	}
+}

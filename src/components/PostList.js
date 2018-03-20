@@ -13,7 +13,6 @@ function dynamicSort(filter) {
     if (typeof itemB === 'string') {
       itemB = itemB.toUpperCase()
     }
-    console.log('itemB', itemB)
     let comparison = 0;
     if (itemA > itemB) {
       comparison = 1;
@@ -25,7 +24,7 @@ function dynamicSort(filter) {
 }
 
 
-function PostList({posts,orderBy}) {
+function PostList({posts,orderBy, votePost}) {
   console.log("Post List Props", posts)
 
   let showingPosts =[]
@@ -51,6 +50,8 @@ function PostList({posts,orderBy}) {
               <span className="post-timestamp">{post.timestamp}</span>
               <p>{post.body}</p>
               <span>Vote Score: {post.voteScore}</span>
+              <button class="upVote" onClick={(event)=> votePost(post.id, 'upVote')}>Up Vote</button>
+              <button class="downVote" onClick={(event)=> votePost(post.id, 'downVote')}>Down Vote</button>
               <span>There are {post.commentCount} Comment(s)</span>
               {console.log("Timestamp", post.timestamp)}
             </li>

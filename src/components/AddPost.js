@@ -66,7 +66,7 @@ createPost(title, body, author, category, id, timestamp) {
 
 	render() {
 		//const date = Date.now()
-		const {titleValue, bodyValue, authorValue, categoryValue, postDate, postId} = this.state
+		const {titleValue, bodyValue, authorValue, categoryValue, postDate, postId, editPost} = this.state
 		const uuidv4 = require('uuid/v4');
 		let myuuid = uuidv4()
 		// Thx React Docs! https://reactjs.org/docs/conditional-rendering.html
@@ -85,15 +85,31 @@ createPost(title, body, author, category, id, timestamp) {
 			          )}
 			        </select>;
 		    }
+		let nonEditInputs = null;
+		let header = null;
+	     if (editPost === true) {
+	      	nonEditInputs =
+	      	<span>
+	      		<span>Author:{authorValue}</span>
+				<span>Category:{categoryValue}</span>
+			</span>
+			header = <h1>Edit Post</h1>
+	    }
+		else {
+	      nonEditInputs =
+		      <span>
+	      		<label>Author:</label><input type="text" value={authorValue} name="authorValue" onChange={this.handleInputChange}></input>
+				<label>Category:{categorySelect}</label>
+			</span>
+			header = <h1>Add New Post</h1>
+	    }
 
 
 		return(
 			<div>
-				<h1>Add New Post</h1>
-				{console.log(myuuid)}
+				{header}
 				<label>Post Title:</label><input type="text" value={titleValue} name="titleValue" onChange={this.handleInputChange}></input>
-				<label>Author:</label><input type="text" value={authorValue} name="authorValue" onChange={this.handleInputChange}></input>
-				<label>Category:{categorySelect}</label>
+				{nonEditInputs}
 				<label>
       				Post:
           			<textarea type="text" value={bodyValue} name="bodyValue" onChange={this.handleInputChange} />

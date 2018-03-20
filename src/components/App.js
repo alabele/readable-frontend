@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
 //import {fetchCategories, fetchPosts} from '../utils/api'
-import {fetchCategories, fetchPosts, fetchCategoryPosts, createNewPost} from '../actions'
+import {fetchCategories, fetchPosts, fetchCategoryPosts, createNewPost, votePost} from '../actions'
 import CategoryPage from './CategoryPage'
 import SinglePost from './SinglePost'
 import AddPost from './AddPost'
@@ -29,6 +29,13 @@ modifyOrder(filter) {
   this.setState({orderBy: filter});
 }
 
+// Up Vote or Down Vote post to Redux Store
+voteOnPost(id, vote) {
+    const { dispatch } = this.props
+    dispatch(votePost(id, vote))
+    alert("Thanks for "+ vote +" this post!")
+}
+
 fetchPostsByCategory(category) {
   const { dispatch } = this.props
  // dispatch(fetchCategoryPosts(category))
@@ -36,8 +43,6 @@ fetchPostsByCategory(category) {
 }
 
   render() {
-    console.log("Props", this.props)
-    console.log("ORDER BY STATE", this.state.orderBy)
     let cat1 = this.props.categories
     //console.log(this.props.categories.list)
     let categoryUrls = []
@@ -53,7 +58,6 @@ fetchPostsByCategory(category) {
             to="/create">
             Add a post
         </Link>
-        {console.log("MY CATEGORIES", cat1)}
         <Route path="/" exact render={() => (
            <CategoryPage
               posts={this.props.posts.list}
@@ -61,6 +65,9 @@ fetchPostsByCategory(category) {
               categories={this.props.categories}
               fetchCategoryPosts= {(category)=> {
                 this.fetchPostsByCategory(category)
+              }}
+              votePost={(id, vote)=> {
+                this.voteOnPost(id, vote)
               }}
               modifyOrder={(filter)=> {
                 this.modifyOrder(filter)
@@ -107,6 +114,9 @@ fetchPostsByCategory(category) {
            <SinglePost
               dispatch = {this.props.dispatch}
               comments={this.props.comments}
+              deletePost={(id)=> {
+                this.deletePost(id)
+              }}
             />
             </div>
          )} />
@@ -133,6 +143,7 @@ function mapStateToProps({categories, posts, comments}) {
     categories: categories.list ,
     posts: posts,
     comments: comments.list,
+    //comments: comments.list.item,
     //Going to need to add comments as an objec to each postID
   }
 }

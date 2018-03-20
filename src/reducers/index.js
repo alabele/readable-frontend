@@ -4,16 +4,22 @@ import {
   GET_CATEGORY_POSTS,
   ADD_POST,
   UPDATE_POST,
+  UPDATE_COMMENT,
   RECEIVE_POSTS,
+  DELETE_POST,
   //FETCH_CATEGORIES,
   RECEIVE_CATEGORIES,
   RECEIVE_COMMENTS,
+  ADD_COMMENT,
+  DELETE_COMMENT,
+  VOTE_COMMENT,
+  VOTE_POST
 } from '../actions'
 
 
 
 function posts (state = {} , action) {
-  const {posts, newPost } = action
+  const {posts, id, body, title, author, category, timestamp, newPost, vote } = action
   // const {myPost = state.list.filter(c =>c.id === id)}
   switch (action.type) {
     case RECEIVE_POSTS:
@@ -29,21 +35,84 @@ function posts (state = {} , action) {
     case ADD_POST:
       return {
         ...state,
-        list: state.list.concat(newPost)
+       list: state.list.concat(newPost)
       }
-       case UPDATE_POST:
-      // return {
-      //   ...state,
-      //   list: state.list.concat(newPost)
-      // }
-        return state.map((todo, index) => {
-          if (index === action.index) {
-            return Object.assign({}, todo, {
-              completed: !todo.completed
+    // case UPDATE_POST:
+    //   return state.map((todo, index) => {
+    //     if (index === action.index) {
+    //       return Object.assign({}, todo)
+    //     }
+    //     return todo
+    //   })
+     // case UPDATE_POST:
+     //  return Object.assign({}, state, {
+     //    list: state.list.map((item) => {
+     //      if (item.id === action.id) {
+     //        return Object.assign({}, item, {
+     //          body: body,
+     //          title: title
+     //        })
+     //      }
+     //      return item
+     //    })
+     //  })
+    // case UPDATE_POST:
+    // return {
+    //   //...state,
+    //     list: state.list.map((item) => {
+    //       if (item.id === action.id) {
+    //         return {
+    //           body: action.body,
+    //           title: action.title
+    //         }
+    //       }
+    //       //return item
+    //     })
+    // }
+    case UPDATE_POST:
+    return {
+        list: state.list.map((item) => {
+          if (item.id === action.id) {
+            return { ...state.list.item,
+              body: action.body,
+              title: action.title
+            }
+          }
+        })
+    }
+    // case VOTE_POST:
+    // return {
+    //     list: state.list.map((item) => {
+    //       if (item.id === action.id) {
+    //         let currentVote = item.voteScore
+    //         return { ...state.list.item,
+    //           voteScore: currentVote + 50
+    //         }
+    //       }
+    //     })
+    // }
+    case VOTE_POST:
+      return {
+      ...state,
+        list: state.list.map((item) => {
+          if (item.id === action.id) {
+            let currentVote = item.voteScore
+            let voteIncrement = null
+            if (action.vote === "downVote") {
+              voteIncrement = -10
+              //console.log("WTF")
+            }
+            return Object.assign({}, item, {
+              voteScore: currentVote + voteIncrement
             })
           }
-          return todo
+          return item
         })
+    }
+    case DELETE_POST:
+      return {
+        ...state,
+      }
     default :
       return state
   }
@@ -67,12 +136,71 @@ function categories (state = {} , action) {
 
 
 function comments (state = {} , action) {
-  const {comments} = action
+  const {comments, newComment, id, body, timestamp, vote} = action
   switch (action.type) {
     case RECEIVE_COMMENTS:
       return {
         ...state,
         list: comments
+      }
+    case ADD_COMMENT:
+      return {
+        ...state,
+        list: state.list.concat(newComment)
+      }
+     case UPDATE_COMMENT:
+      return Object.assign({}, state, {
+        list: state.list.map((item) => {
+          if (item.id === action.id) {
+            return Object.assign({}, item, {
+              body: body,
+              timestamp: timestamp
+            })
+          }
+          return item
+        })
+      })
+    case DELETE_COMMENT:
+      return Object.assign({}, state, {
+        list: state.list.map((item) => {
+          if (item.id === action.id) {
+            return Object.assign({}, item, {
+              deleted: true,
+            })
+          }
+          return item
+        })
+      })
+    // case VOTE_COMMENT:
+    //   let lauren = vote
+    //   return
+    //     Object.assign({}, state, {
+    //       list: state.list.map((item) => {
+    //         if (item.id === action.id) {
+    //           return Object.assign({}, item, {
+    //             vote: "LAUREN IS HERE" +  lauren,
+    //             voteCount: -1
+    //           })
+    //         }
+    //         return item
+    //       })
+    //   })
+     case VOTE_COMMENT:
+      return {
+        ...state,
+          list: state.list.map((item) => {
+            if (item.id === action.id) {
+              let currentVote = item.voteScore
+              let voteIncrement = 1
+              if (vote === "downVote") {
+                voteIncrement = -1
+              }
+              return Object.assign({}, item, {
+                voteScore: currentVote + voteIncrement
+              })
+            }
+            return item
+          })
       }
     default :
       return state

@@ -1,7 +1,8 @@
 Creating dynamic links:
 https://stackoverflow.com/questions/31567729/how-to-create-dynamic-href-in-react-render-function
 
-
+Reducers
+https://redux.js.org/basics/reducers
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

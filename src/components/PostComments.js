@@ -4,14 +4,14 @@ import {fetchComments} from '../actions'
 
 class PostComments extends Component {
   state = {
-    foodModalOpen: false,
+   modalOpen: false,
   }
 
 //openFoodModal = () => this.setState(() => ({ foodModalOpen: true }))
 //closeFoodModal = () => this.setState(() => ({ foodModalOpen: false }))
 
   render() {
-    const {comments, postId} = this.props
+    const {comments, postId, editComment, deleteComment, voteComment} = this.props
 
    if (comments === undefined) {
       return <p>Sorry, no comments yet</p>
@@ -19,13 +19,15 @@ class PostComments extends Component {
     else {
       return (
         <ol>
-          {comments.filter((c) => c.parentId === postId).map((c)=>
+          {comments.filter((c) => c.parentId === postId & c.deleted == false).map((c)=>
             <li key={c.id}>
               <p>{c.body}</p>
               <span className="comment-author">By: {c.author}</span>
               <span className="comment-score">Vote Score: {c.voteScore}</span>
-              <button id="upVote">Up Vote</button>
-              <button id="downVote">Down Vote</button>
+              <button id="upVote" onClick={(event)=> voteComment(c.id, 'upVote')}>Up Vote</button>
+              <button id="downVote" onClick={(event)=> voteComment(c.id, 'downVote')}>Down Vote</button>
+              <button id="editComment" onClick={(event)=> editComment(c.id, c.author, c.body, c.voteScore)}>Edit Comment</button>
+               <button id="deleteComment" onClick={(event)=> deleteComment(c.id)}>Delete Comment</button>
             </li>
           )}
         </ol>
