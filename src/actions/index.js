@@ -16,7 +16,6 @@ export const VOTE_COMMENT = "VOTE_COMMENT"
 export const VOTE_POST = "VOTE_POST"
 
 
-////////////// THIS IS WORKING IN COMPONENTDIDMOUNT!
 export function fetchCategories() {
   return dispatch => {
     //dispatch(requestPosts())
@@ -33,7 +32,7 @@ export const receiveCat = categories => ({
   categories
 });
 
-
+//Fetch Posts
 export function fetchPosts() {
   return dispatch => {
     return fetch(url + "posts", auth)
@@ -50,8 +49,8 @@ export const receivePosts = posts => ({
 });
 
 
-////////////////END WORKING SECTION
 
+//Fetch Comments
 
 export const receiveComments = comments => ({
   type: RECEIVE_COMMENTS,
@@ -84,20 +83,11 @@ export function fetchCategoryPosts(category) {
 			return response.json()
 			})
 		.then(json => dispatch(getCategoryPosts(json)))
-		//.then(postData => console.log(postData))
+		.then(json => console.log("FETCH CATEGORY POSTS", json))
 	}
 }
 
-// export const addPost = ( title, body, author, category, id, timestamp ) => ({
-//   type: ADD_POST,
-//   	title,
-//   	body,
-//   	author,
-//   	category,
-//   	id,
-//   	timestamp
-// });
-
+//Add post
 export const addPost = ( newPost ) => ({
   type: ADD_POST,
   	newPost
@@ -128,9 +118,7 @@ export function createNewPost(title, body, author, category, id, timestamp) {
 			return response.json()
 			})
 		.then(json => dispatch(addPost(json)))
-		.then(postData => console.log(postData))
-
-
+		//.then(postData => console.log(postData))
 	}
 }
 
@@ -162,7 +150,6 @@ export function editPost(title, body, id) {
   		.then((response) => {
 			return response.json()
 			})
-		//.then(json => dispatch(addPost(json)))
 		.then(json => dispatch(updatePost(json)))
 		//.then(postData => console.log("UPDATE POST" , postData))
 	}
@@ -232,7 +219,6 @@ export function createNewComment(body, author, commentId, parentId, timestamp) {
 			return response.json()
 			})
 		.then(json => dispatch(addComment(json)))
-		.then(commentData => console.log("COMMENT DATA",commentData))
 	}
 }
 
@@ -322,19 +308,20 @@ export function voteComment(id, vote) {
   		.then((response) => {
 			return response.json()
 			})
-		.then(json => dispatch(voteOnComment(json)))
+		.then(json => dispatch(voteOnComment({id,vote})))
 		.then(console.log("VOTE", vote))
+		.then(jackie => console.log("WE COMMENTED THIS COMMENT", jackie))
 	}
 }
 
 //VOTE Post
-export const voteOnPost = ( {id, vote } ) => ({
+export const voteOnPost = ( {id, vote}  ) => ({
   type: VOTE_POST,
   	id,
   	vote,
 });
 
-export function votePost(id, vote) {
+export function votingPost(id, vote) {
 	const commentData = {
 		option: vote,
 	}
@@ -352,7 +339,7 @@ export function votePost(id, vote) {
   		.then((response) => {
 			return response.json()
 			})
-		.then(json => dispatch(voteOnPost(json)))
-		.then(console.log("POST VOTE", vote))
+		.then(json => dispatch(voteOnPost({id,vote})))
+		//.then(console.log("POST VOTE", vote))
 	}
 }

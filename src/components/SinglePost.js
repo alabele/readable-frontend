@@ -31,7 +31,6 @@ getPostID() {
 deletePost(id) {
   const { dispatch } = this.props
     dispatch(deleteCurrentPost(id))
-    //console.log(title)
     alert("Thanks for deleting your post!")
     this.setState({
       postId: '',
@@ -44,13 +43,7 @@ deletePost(id) {
 deleteComment(id) {
   const { dispatch } = this.props
     dispatch(deleteComment(id))
-    //console.log(title)
     alert("Thanks for deleting your comment!")
-    // this.setState({
-    //   postId: '',
-    //   currentPost: {},
-    //   commentDeleted: true,
-    // });
 }
 
 // Up Vote or Down Vote comment to Redux Store
@@ -84,16 +77,14 @@ closeCommentsModal = () => this.setState(() => ({ modalOpen: false }))
     theDate = theDate.toString()
     const uuidv4 = require('uuid/v4');
     let myuuid = uuidv4()
-    const {comments} = this.props
+    const {comments, votePost} = this.props
     let commentsArray = []
     //if (currentPost.)
 
     return (
       <div className='container'>
-      {console.log("The Date", theDate)}
         <div className='nav'>
            <h1 className='header'>Singe Post Page {this.state.postId}</h1>
-           {console.log("Single Post", this.state.currentPost)}
            <Link to={'/create/' + currentPost.id}>
               <button className='edit-post'>Edit Post
               </button>
@@ -114,12 +105,12 @@ closeCommentsModal = () => this.setState(() => ({ modalOpen: false }))
               <span className="post-category">{currentPost.category}</span>
               <h4>{currentPost.title}</h4>
               <span className="post-timestamp">{theDate}</span>
-              {console.log(currentPost.timestamp)}
               <span className="post-author">Written by: {currentPost.author}</span>
               <p>{currentPost.body}</p>
               <span>Vote Score: {currentPost.voteScore}</span>
+              <button className="upVote" onClick={(event)=> votePost(currentPost.id, 'upVote')}>Up Vote</button>
+              <button className="downVote" onClick={(event)=> votePost(currentPost.id, 'downVote')}>Down Vote</button>
               <span>There are {currentPost.commentCount} Comment(s)</span>
-              {console.log("Timestamp", currentPost.timestamp)}
          </div>
          <div className="post-comments">
            <PostComments

@@ -30,7 +30,7 @@ function posts (state = {} , action) {
     case GET_CATEGORY_POSTS:
       return {
         ...state,
-        list: posts,
+        list: state.list.concat(posts),
       }
     case ADD_POST:
       return {
@@ -80,35 +80,23 @@ function posts (state = {} , action) {
           }
         })
     }
-    // case VOTE_POST:
-    // return {
-    //     list: state.list.map((item) => {
-    //       if (item.id === action.id) {
-    //         let currentVote = item.voteScore
-    //         return { ...state.list.item,
-    //           voteScore: currentVote + 50
-    //         }
-    //       }
-    //     })
-    // }
     case VOTE_POST:
       return {
-      ...state,
-        list: state.list.map((item) => {
-          if (item.id === action.id) {
-            let currentVote = item.voteScore
-            let voteIncrement = null
-            if (action.vote === "downVote") {
-              voteIncrement = -10
-              //console.log("WTF")
+        ...state,
+          list: state.list.map((item) => {
+            if (item.id === action.id) {
+              let currentVote = item.voteScore
+              let voteIncrement = 1
+              if (vote === "downVote") {
+                voteIncrement = -1
+              }
+              return Object.assign({}, item, {
+                voteScore: currentVote + voteIncrement
+              })
             }
-            return Object.assign({}, item, {
-              voteScore: currentVote + voteIncrement
-            })
-          }
-          return item
-        })
-    }
+            return item
+          })
+      }
     case DELETE_POST:
       return {
         ...state,
@@ -171,20 +159,6 @@ function comments (state = {} , action) {
           return item
         })
       })
-    // case VOTE_COMMENT:
-    //   let lauren = vote
-    //   return
-    //     Object.assign({}, state, {
-    //       list: state.list.map((item) => {
-    //         if (item.id === action.id) {
-    //           return Object.assign({}, item, {
-    //             vote: "LAUREN IS HERE" +  lauren,
-    //             voteCount: -1
-    //           })
-    //         }
-    //         return item
-    //       })
-    //   })
      case VOTE_COMMENT:
       return {
         ...state,

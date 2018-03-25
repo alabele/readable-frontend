@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
+import '../css/style.css';
 //import {fetchCategories, fetchPosts} from '../utils/api'
-import {fetchCategories, fetchPosts, fetchCategoryPosts, createNewPost, votePost} from '../actions'
+import {fetchCategories, fetchPosts, fetchCategoryPosts, createNewPost, votingPost} from '../actions'
 import CategoryPage from './CategoryPage'
 import SinglePost from './SinglePost'
 import AddPost from './AddPost'
@@ -15,15 +16,28 @@ class App extends Component {
   state = {
     //categories: [],
    // posts: [],
+    path: 'default',
     orderBy: "default",
   }
 
+getPath() {
+  const path = window.location.pathname.split('/')
+  return path
+}
+
  componentDidMount() {
     const { dispatch } = this.props
+    const path = window.location.pathname.split('/')
     dispatch(fetchCategories())
     dispatch(fetchPosts())
-    //console.log( "Dispatch", dispatch)
-  }
+}
+
+
+//  componentDidMount() {
+//     const { dispatch } = this.props
+//     dispatch(fetchCategories())
+//     dispatch(fetchPosts())
+// }
 
 modifyOrder(filter) {
   this.setState({orderBy: filter});
@@ -32,7 +46,7 @@ modifyOrder(filter) {
 // Up Vote or Down Vote post to Redux Store
 voteOnPost(id, vote) {
     const { dispatch } = this.props
-    dispatch(votePost(id, vote))
+    dispatch(votingPost(id, vote))
     alert("Thanks for "+ vote +" this post!")
 }
 
@@ -44,7 +58,6 @@ fetchPostsByCategory(category) {
 
   render() {
     let cat1 = this.props.categories
-    //console.log(this.props.categories.list)
     let categoryUrls = []
     if (cat1 != undefined) {
        categoryUrls = cat1
@@ -54,10 +67,7 @@ fetchPostsByCategory(category) {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <Link
-            to="/create">
-            Add a post
-        </Link>
+
         <Route path="/" exact render={() => (
            <CategoryPage
               posts={this.props.posts.list}
@@ -75,9 +85,9 @@ fetchPostsByCategory(category) {
               path='default'
             />
          )} />
-        <Route path="/redux"  exact render={() => (
+        <Route path="/category/"  render={() => (
           <div>
-           <h1 >HOWDAY YOU FOUND REDUX</h1>
+           <h1 >HOWDAY YOU FOUND CATEGORIES</h1>
            <CategoryPage
               posts={this.props.posts.list}
               orderBy={this.state.orderBy}
@@ -88,11 +98,14 @@ fetchPostsByCategory(category) {
               fetchCategoryPosts= {(category)=> {
                 this.fetchPostsByCategory(category)
               }}
+              votePost={(id, vote)=> {
+                this.voteOnPost(id, vote)
+              }}
               path='redux'
             />
             </div>
          )} />
-        <Route path="/react"  render={() => (
+        <Route path="/category/"  render={() => (
           <div>
            <h1 >HOWDAY YOU FOUND REACT</h1>
            <CategoryPage
@@ -105,6 +118,9 @@ fetchPostsByCategory(category) {
               fetchCategoryPosts= {(category)=> {
                 this.fetchPostsByCategory(category)
               }}
+              votePost={(id, vote)=> {
+                this.voteOnPost(id, vote)
+              }}
               path='react'
             />
             </div>
@@ -114,6 +130,9 @@ fetchPostsByCategory(category) {
            <SinglePost
               dispatch = {this.props.dispatch}
               comments={this.props.comments}
+              votePost={(id, vote)=> {
+                this.voteOnPost(id, vote)
+              }}
               deletePost={(id)=> {
                 this.deletePost(id)
               }}
@@ -131,7 +150,9 @@ fetchPostsByCategory(category) {
             />
             </div>
          )} />
-
+        <footer>
+          <span>Photo by Kelly Sikkema on Unsplash</span>
+        </footer>
       </div>
     );
   }
@@ -140,7 +161,7 @@ fetchPostsByCategory(category) {
 
 function mapStateToProps({categories, posts, comments}) {
   return {
-    categories: categories.list ,
+    categories: categories.list,
     posts: posts,
     comments: comments.list,
     //comments: comments.list.item,

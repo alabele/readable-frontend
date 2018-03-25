@@ -38,6 +38,6 @@ export const fetchSinglePost = (id) =>
   return res.json()
   })
 .then((post) => {
-   console.log('single post', post);
+   //console.log('single post', post);
    return post
 });

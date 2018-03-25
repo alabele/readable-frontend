@@ -7,9 +7,6 @@ class PostComments extends Component {
    modalOpen: false,
   }
 
-//openFoodModal = () => this.setState(() => ({ foodModalOpen: true }))
-//closeFoodModal = () => this.setState(() => ({ foodModalOpen: false }))
-
   render() {
     const {comments, postId, editComment, deleteComment, voteComment} = this.props
 

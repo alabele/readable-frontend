@@ -17,6 +17,10 @@ function CategoryPage({posts, orderBy, categories, modifyOrder, fetchCategoryPos
 
     return (
       <div className="category-page">
+        <Link
+            to="/create">
+            Add a post
+        </Link>
         <div className="all-categories">
           <CategoryList
             categories={categories}

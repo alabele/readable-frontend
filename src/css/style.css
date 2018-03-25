@@ -1,0 +1,36 @@
+/**********/
+footer {
+  background: red; }
+
+.App-header {
+  background: url(../img/hero2.jpg); }
+
+.categories-list li {
+  padding: 10px 20px;
+  display: inline-block;
+  text-transform: uppercase;
+  font: 18px "IBM Plex Sans Condensed", sans-serif;
+  color: #2b313a; }
+
+.add-post a {
+  border: 1px solid #2b313a;
+  border-radius: 2px;
+  font: bold 18px "IBM Plex Sans Condensed", sans-serif;
+  padding: 10px 20px;
+  text-decoration: none; }
+
+.posts-list {
+  display: flex;
+  flex-wrap: wrap; }
+  .posts-list li {
+    width: 280px;
+    margin: 0 15px;
+    list-style: none;
+    border: 1px solid #2b313a;
+    padding: 5%;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
+    -moz-box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
+    box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69); }
+
+/*# sourceMappingURL=style.css.map */

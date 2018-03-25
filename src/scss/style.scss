@@ -1,0 +1,48 @@
+$black: #2b313a;
+$header-font:'IBM Plex Mono', monospace;
+$text-font:  'IBM Plex Sans Condensed', sans-serif;
+
+
+/**********/
+footer {
+	background: red;
+}
+
+
+.App-header {
+	background: url(../img/hero2.jpg);
+}
+
+
+.categories-list li {
+	padding: 10px 20px;
+	display: inline-block;
+	text-transform: uppercase;
+	font: 18px $text-font;
+	color: $black;
+}
+
+.add-post a {
+	border: 1px solid $black;
+	border-radius: 2px;
+	font: bold 18px $text-font;
+	padding: 10px 20px;
+	text-decoration: none;
+
+}
+
+.posts-list {
+	display: flex;
+	flex-wrap: wrap;
+	li {
+		width: 280px;
+    	margin: 0 15px;
+		list-style: none;
+		border: 1px solid $black;
+		padding: 5%;
+		border-radius: 2px;
+		-webkit-box-shadow: 0px 2px 11px -1px rgba(41,40,41,0.69);
+		-moz-box-shadow: 0px 2px 11px -1px rgba(41,40,41,0.69);
+		box-shadow: 0px 2px 11px -1px rgba(41,40,41,0.69);
+	}
+}

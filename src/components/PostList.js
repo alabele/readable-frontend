@@ -43,17 +43,16 @@ function PostList({posts,orderBy, votePost}) {
   else {
 		return (
       <ol className="posts-list">
-        {showingPosts.map((post) =>
-            <li key={post.id}>
-              <span className="post-category">{post.category}</span>
-              <Link to={'/posts/' + post.id}><h4>{post.title}</h4></Link>
-              <span className="post-timestamp">{post.timestamp}</span>
-              <p>{post.body}</p>
-              <span>Vote Score: {post.voteScore}</span>
-              <button class="upVote" onClick={(event)=> votePost(post.id, 'upVote')}>Up Vote</button>
-              <button class="downVote" onClick={(event)=> votePost(post.id, 'downVote')}>Down Vote</button>
-              <span>There are {post.commentCount} Comment(s)</span>
-              {console.log("Timestamp", post.timestamp)}
+        {showingPosts.map((p) =>
+            <li key={p.id}>
+              <Link to={'/posts/' + p.id}><h4>{p.title}</h4></Link>
+              <span className="post-category">{p.category}</span>
+              <span className="post-timestamp">{p.timestamp}</span>
+              <p>{p.body}</p>
+              <span>Vote Score: {p.voteScore}</span>
+              <button className="upVote" onClick={(event)=> votePost(p.id, 'upVote')}>Up Vote</button>
+              <button className="downVote" onClick={(event)=> votePost(p.id, 'downVote')}>Down Vote</button>
+              <span>There are {p.commentCount} Comment(s)</span>
             </li>
           )}
       </ol>
