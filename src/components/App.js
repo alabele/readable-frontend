@@ -3,41 +3,78 @@ import logo from '../logo.svg';
 import '../App.css';
 import '../css/style.css';
 //import {fetchCategories, fetchPosts} from '../utils/api'
-import {fetchCategories, fetchPosts, fetchCategoryPosts, createNewPost, votingPost} from '../actions'
+import {fetchCategories, fetchPosts, fetchCategoryPosts, votingPost} from '../actions'
 import CategoryPage from './CategoryPage'
 import SinglePost from './SinglePost'
+import ErrorPage404 from './ErrorPage404'
 import AddPost from './AddPost'
 import {Route} from 'react-router-dom'
 import { connect } from 'react-redux'
-import {Link, Switch} from 'react-router-dom'
+import { Switch} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 
 class App extends Component {
   state = {
     //categories: [],
    // posts: [],
-    path: 'default',
+    urlPath: '',
     orderBy: "default",
   }
 
-getPath() {
-  const path = window.location.pathname.split('/')
-  return path
-}
+// getCategoryPath() {
+//   let path = window.location.pathname.split('/')
+//   if (path[2] !== undefined && path[1] === 'category') {
+//     path = path[2]
+//     console.log("found category", path);
+//   }
+//   return path
+// }
 
  componentDidMount() {
     const { dispatch } = this.props
+    //const path = window.location.pathname.split('/')[2]
+    //this.setState({urlPath: path})
+    //check URL to determine what page
     const path = window.location.pathname.split('/')
+    //if default url, fetch posts
+    //this.setState({urlPath: path})
+   // console.log("state", this.state)
+    // get categories for navigation
     dispatch(fetchCategories())
     dispatch(fetchPosts())
+    //Fetch post using API, and set local state of currentPost
+    //dispatch(fetchCategoryPosts(path))
+    // if (path[1] === "") {
+    //   dispatch(fetchPosts())
+    //   console.log("found category", path);
+    // }
+    //if category url, fetch category posts
+     if (path[2] !== undefined && path[1] === 'category') {
+        console.log("found category", path[2]);
+        let category = path[2]
+        //dispatch(fetchPosts())
+        dispatch(fetchCategoryPosts(category))
+       // this.setState({urlPath: category})
+     }
+
+}
+
+componentDidUpdate() {
+  const { dispatch } = this.props
+  const path = window.location.pathname.split('/')
+  if (path[2] !== undefined && path[1] === 'category') {
+      console.log("found category via ComponentDidUpdate", path[2]);
+      let category = path[2]
+      dispatch(fetchCategoryPosts(category)).then((category)=> {
+        //this.setState({urlPath: category})
+      })
+     }
 }
 
 
-//  componentDidMount() {
-//     const { dispatch } = this.props
-//     dispatch(fetchCategories())
-//     dispatch(fetchPosts())
-// }
+modifyPath(url) {
+  this.setState({urlPath: url});
+}
 
 modifyOrder(filter) {
   this.setState({orderBy: filter});
@@ -50,30 +87,21 @@ voteOnPost(id, vote) {
     alert("Thanks for "+ vote +" this post!")
 }
 
-fetchPostsByCategory(category) {
-  const { dispatch } = this.props
- // dispatch(fetchCategoryPosts(category))
-  console.log("WE DID IT!" + category)
-}
 
   render() {
-    let cat1 = this.props.categories
-    let categoryUrls = []
-    if (cat1 != undefined) {
-       categoryUrls = cat1
-    }
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-
+        <Switch>
         <Route path="/" exact render={() => (
            <CategoryPage
+              dispatch = {this.props.dispatch}
               posts={this.props.posts.list}
               orderBy={this.state.orderBy}
               categories={this.props.categories}
-              fetchCategoryPosts= {(category)=> {
+              fetchCategory= {(category)=> {
                 this.fetchPostsByCategory(category)
               }}
               votePost={(id, vote)=> {
@@ -82,14 +110,17 @@ fetchPostsByCategory(category) {
               modifyOrder={(filter)=> {
                 this.modifyOrder(filter)
               }}
-              path='default'
+               modifyPath={(url)=> {
+                this.modifyPath(url)
+              }}
+              urlPath={this.state.urlPath}
+              categoryFilter='none'
             />
          )} />
         <Route path="/category/"  render={() => (
-          <div>
-           <h1 >HOWDAY YOU FOUND CATEGORIES</h1>
            <CategoryPage
-              posts={this.props.posts.list}
+              dispatch = {this.props.dispatch}
+              posts={this.props.posts.categoryList}
               orderBy={this.state.orderBy}
               categories={this.props.categories}
               modifyOrder={(filter)=> {
@@ -101,29 +132,12 @@ fetchPostsByCategory(category) {
               votePost={(id, vote)=> {
                 this.voteOnPost(id, vote)
               }}
-              path='redux'
+              modifyPath={(url)=> {
+                this.modifyPath(url)
+              }}
+              urlPath={this.state.urlPath}
+              categoryFilter={this.state.urlPath}
             />
-            </div>
-         )} />
-        <Route path="/category/"  render={() => (
-          <div>
-           <h1 >HOWDAY YOU FOUND REACT</h1>
-           <CategoryPage
-              posts={this.props.posts.list}
-              orderBy={this.state.orderBy}
-              categories={this.props.categories}
-              modifyOrder={(filter)=> {
-                this.modifyOrder(filter)
-              }}
-              fetchCategoryPosts= {(category)=> {
-                this.fetchPostsByCategory(category)
-              }}
-              votePost={(id, vote)=> {
-                this.voteOnPost(id, vote)
-              }}
-              path='react'
-            />
-            </div>
          )} />
         <Route path="/posts/"  render={() => (
           <div>
@@ -140,7 +154,6 @@ fetchPostsByCategory(category) {
             </div>
          )} />
         <Route path="/create"  render={() => (
-          <div>
            <AddPost
               createPost={(title, body, author, category, id, timestamp)=> {
                 this.createPost(title, body, author, category, id, timestamp)
@@ -148,8 +161,9 @@ fetchPostsByCategory(category) {
               categories={this.props.categories}
               dispatch = {this.props.dispatch}
             />
-            </div>
          )} />
+        <Route component={ErrorPage404}/>
+        </Switch>
         <footer>
           <span>Photo by Kelly Sikkema on Unsplash</span>
         </footer>
@@ -164,8 +178,6 @@ function mapStateToProps({categories, posts, comments}) {
     categories: categories.list,
     posts: posts,
     comments: comments.list,
-    //comments: comments.list.item,
-    //Going to need to add comments as an objec to each postID
   }
 }
 

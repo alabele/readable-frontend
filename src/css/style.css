@@ -1,36 +1,275 @@
+h1 {
+  font: 38px "Pacifico", cursive;
+  margin: 20px auto;
+  color: #fff;
+  text-shadow: 0px 0px 13px #969696; }
+
+h4 {
+  font: 18px "IBM Plex Sans Condensed", sans-serif;
+  color: #351F67; }
+  h4:hover {
+    color: #b6a2e3; }
+
+p {
+  font: 18px "Roboto Condensed", sans-serif;
+  font-weight: 300; }
+
 /**********/
 footer {
-  background: red; }
+  height: 100px;
+  position: fixed;
+  bottom: 0; }
+
+button {
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  font: bold 18px "Roboto Condensed", sans-serif;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 300;
+  transition: .2s ease-in;
+  background: transparent; }
+  button:hover {
+    color: gray;
+    border: 2px solid gray; }
 
 .App-header {
-  background: url(../img/hero2.jpg); }
+  /*background: url(../img/hero2.jpg);*/
+  background: transparent;
+  height: 80px;
+  position: fixed; }
+
+.category-page {
+  background: url(../img/hero3.png);
+  background-size: cover;
+  width: 100%;
+  height: 100vh; }
+  .category-page .page-inner {
+    /*margin-top: 100px;*/
+    /*//background: #fff;*/ }
+  .category-page select {
+    height: 40px;
+    width: 200px;
+    font: 18px "Roboto Condensed", sans-serif;
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    cursor: pointer;
+    transition: .2s ease-in; }
+    .category-page select:hover {
+      color: gray;
+      border: 2px solid gray; }
+  .category-page .add-post {
+    position: fixed;
+    right: 50px;
+    top: 50px; }
+    .category-page .add-post a {
+      border: 2px solid #fff;
+      padding: 10px 20px;
+      border: 2px solid #fff;
+      border-radius: 2px;
+      font: bold 18px "Roboto Condensed", sans-serif;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 300;
+      transition: .2s ease-in; }
+      .category-page .add-post a:hover {
+        color: gray;
+        border: 2px solid gray; }
 
 .categories-list li {
   padding: 10px 20px;
   display: inline-block;
   text-transform: uppercase;
   font: 18px "IBM Plex Sans Condensed", sans-serif;
-  color: #2b313a; }
-
-.add-post a {
-  border: 1px solid #2b313a;
-  border-radius: 2px;
-  font: bold 18px "IBM Plex Sans Condensed", sans-serif;
-  padding: 10px 20px;
-  text-decoration: none; }
+  color: #351F67;
+  transition: .3s ease-in; }
+  .categories-list li:hover {
+    color: #b6a2e3; }
 
 .posts-list {
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  margin-top: 40px; }
   .posts-list li {
     width: 280px;
     margin: 0 15px;
     list-style: none;
-    border: 1px solid #2b313a;
-    padding: 5%;
+    padding: 2%;
     border-radius: 2px;
     -webkit-box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
     -moz-box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
-    box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69); }
+    box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
+    background: #fff; }
+    .posts-list li .post-category, .posts-list li .post-timestamp {
+      text-transform: uppercase;
+      font: 12px "IBM Plex Sans Condensed", sans-serif;
+      margin-bottom: 5px; }
+    .posts-list li p {
+      padding-bottom: 15px;
+      border-bottom: 2px solid #efefef; }
+    .posts-list li .voteScore {
+      text-transform: uppercase;
+      font: 16px "IBM Plex Sans Condensed", sans-serif;
+      font-weight: 600;
+      margin-bottom: 10px; }
+    .posts-list li button {
+      background: transparent;
+      border: none;
+      margin: 0 5px;
+      font-size: 20px;
+      color: #351F67; }
+    .posts-list li .commentCount {
+      border-top: 2px solid #efefef;
+      padding-top: 10px;
+      font: 18px "Roboto Condensed", sans-serif;
+      font-weight: 300; }
+
+.add-post-page {
+  background: url(../img/hero3.png);
+  background-size: cover;
+  width: 100%;
+  height: 100vh; }
+  .add-post-page .author-edit {
+    display: block;
+    font: 18px "IBM Plex Sans Condensed", sans-serif; }
+    .add-post-page .author-edit span {
+      display: block;
+      margin-bottom: 10px; }
+  .add-post-page h1 {
+    margin-top: 0; }
+  .add-post-page label {
+    text-transform: uppercase;
+    font: 18px "IBM Plex Sans Condensed", sans-serif;
+    color: #351F67;
+    display: block;
+    margin: 0 auto 15px auto; }
+  .add-post-page input, .add-post-page select, .add-post-page textarea {
+    display: block;
+    margin: auto;
+    height: 35px;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    width: 450px; }
+  .add-post-page textarea {
+    height: 200px; }
+
+.single-post-page {
+  background: url(../img/hero3.png);
+  background-size: cover;
+  width: 100%;
+  height: 100vh; }
+  .single-post-page .nav {
+    margin-bottom: 20px; }
+    .single-post-page .nav button {
+      margin: 0 10px;
+      padding: 5px 10px;
+      font-size: 14px; }
+  .single-post-page .post-body {
+    width: 50%;
+    padding: 2%;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
+    -moz-box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
+    box-shadow: 0px 2px 11px -1px rgba(41, 40, 41, 0.69);
+    background: #fff;
+    margin: 20px auto; }
+  .single-post-page .post-category {
+    display: block;
+    text-transform: uppercase;
+    font: bold 18px "IBM Plex Sans Condensed", sans-serif;
+    color: #566275; }
+  .single-post-page .post-author, .single-post-page .post-timestamp {
+    text-transform: uppercase;
+    font: 14px "Roboto Condensed", sans-serif;
+    margin-bottom: 5px;
+    display: block;
+    color: #566275; }
+  .single-post-page .post-vote-score {
+    border-top: solid 2px #eee;
+    border-bottom: solid 2px #eee;
+    padding: 10px;
+    width: 50%;
+    margin: 15px auto; }
+    .single-post-page .post-vote-score .vote-score-header {
+      display: block;
+      font: 18px "IBM Plex Sans Condensed", sans-serif; }
+    .single-post-page .post-vote-score button {
+      border: none;
+      color: #2b313a; }
+      .single-post-page .post-vote-score button:hover {
+        color: #6c7b92; }
+
+.post-comments ol {
+  list-style: none; }
+.post-comments li {
+  border-bottom: 5px solid #eee; }
+.post-comments .upVote, .post-comments .downVote {
+  border: none; }
+.post-comments .editComment, .post-comments .deleteComment {
+  margin: 0 10px;
+  padding: 5px 10px;
+  font-size: 14px; }
+.post-comments button {
+  color: #2b313a; }
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.65); }
+
+.modal {
+  position: absolute;
+  display: block;
+  top: 40px;
+  width: 50%;
+  margin: auto;
+  bottom: 40px;
+  border: 1px solid #cccccc;
+  background: rgba(255, 255, 255, 0.95);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.24), 0 3px 12px 0 rgba(0, 0, 0, 0.12);
+  min-width: 500px; }
+  .modal h1 {
+    text-align: center;
+    color: #2b313a; }
+  .modal label {
+    display: block;
+    margin: auto;
+    text-align: center; }
+  .modal button {
+    color: #2b313a;
+    border: 2px solid #2b313a;
+    margin: auto;
+    display: block; }
+    .modal button:hover {
+      color: #fefeff;
+      background: #2b313a;
+      border: 2px solid #566275; }
+  .modal .close-modal {
+    border: none;
+    position: absolute;
+    right: 0; }
+    .modal .close-modal:hover {
+      border: none;
+      background: none;
+      color: #566275; }
+  .modal input, .modal textarea {
+    display: block;
+    margin: auto;
+    width: 50%; }
+  .modal label {
+    margin-bottom: 20px; }
 
 /*# sourceMappingURL=style.css.map */

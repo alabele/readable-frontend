@@ -5,6 +5,7 @@ import {fetchComments, deleteCurrentPost, deleteComment, voteComment} from '../a
 import PostComments from './PostComments'
 import {Link} from 'react-router-dom'
 import AddComment from './AddComment'
+import { Glyphicon } from 'react-bootstrap';
 
 const uuidv4 = require('uuid/v4');
 
@@ -65,26 +66,29 @@ componentDidMount() {
   //Fetch comments
   const { dispatch } = this.props
    dispatch(fetchComments(path))
+
+   Modal.setAppElement('body');
 }
+
 
 addCommentsModal = () => this.setState(() => ({ modalOpen: true}))
 editCommentsModal = ( id, author, body, voteScore) => this.setState(() => ({ modalOpen: true,  editComment: true, currentCommentId: id, commentBodyValue:body, commentAuthorValue:author, commentVoteScore: voteScore }))
 closeCommentsModal = () => this.setState(() => ({ modalOpen: false }))
 
   render() {
-    const { modalOpen, loadingFood, food, deleted,  postId, currentPost } = this.state
+    const { modalOpen, postId, currentPost } = this.state
     let theDate = Date(currentPost.timestamp)
     theDate = theDate.toString()
-    const uuidv4 = require('uuid/v4');
-    let myuuid = uuidv4()
-    const {comments, votePost} = this.props
-    let commentsArray = []
-    //if (currentPost.)
+    //const uuidv4 = require('uuid/v4');
+    //let myuuid = uuidv4()
+    const {votePost} = this.props
 
     return (
+      <div className='single-post-page'>
+      {console.log('MODAL STATE', modalOpen)}
       <div className='container'>
         <div className='nav'>
-           <h1 className='header'>Singe Post Page {this.state.postId}</h1>
+           <h1 className='header'>{currentPost.title}</h1>
            <Link to={'/create/' + currentPost.id}>
               <button className='edit-post'>Edit Post
               </button>
@@ -97,38 +101,41 @@ closeCommentsModal = () => this.setState(() => ({ modalOpen: false }))
            <button
              className='add-comment'
              onClick={(event)=> this.addCommentsModal()}>
+             <Glyphicon glyph="plus" />
                Add Comment
            </button>
          </div>
          <div className='post-body'>
-
               <span className="post-category">{currentPost.category}</span>
-              <h4>{currentPost.title}</h4>
               <span className="post-timestamp">{theDate}</span>
               <span className="post-author">Written by: {currentPost.author}</span>
               <p>{currentPost.body}</p>
-              <span>Vote Score: {currentPost.voteScore}</span>
-              <button className="upVote" onClick={(event)=> votePost(currentPost.id, 'upVote')}>Up Vote</button>
-              <button className="downVote" onClick={(event)=> votePost(currentPost.id, 'downVote')}>Down Vote</button>
-              <span>There are {currentPost.commentCount} Comment(s)</span>
-         </div>
-         <div className="post-comments">
-           <PostComments
-              dispatch={this.props.dispatch}
-              postId={this.state.postId}
-              comments={this.props.comments}
-              commentId={this.state.currentCommentId}
-              editComment={(id, author, body, voteScore)=> {
-                this.editCommentsModal(id, author, body, voteScore)
-              }}
-              deleteComment={(id)=> {
-                this.deleteComment(id)
-              }}
-              voteComment={(id, vote)=> {
-                this.voteOnComment(id, vote)
-              }}
-              // edit={this.state.editComment}
-           />
+              <div className="post-vote-score">
+                <span className="vote-score-header">Vote Score: {currentPost.voteScore}</span>
+                <button className="upVote" onClick={(event)=> votePost(currentPost.id, 'upVote')}><Glyphicon glyph="thumbs-up" /> </button>
+                <button className="downVote" onClick={(event)=> votePost(currentPost.id, 'downVote')}><Glyphicon glyph="thumbs-down" /> </button>
+              </div>
+              <div className="comments-list">
+                <span>There are {currentPost.commentCount} Comment(s)</span>
+              </div>
+             <div className="post-comments">
+               <PostComments
+                  dispatch={this.props.dispatch}
+                  postId={this.state.postId}
+                  comments={this.props.comments}
+                  commentId={this.state.currentCommentId}
+                  editComment={(id, author, body, voteScore)=> {
+                    this.editCommentsModal(id, author, body, voteScore)
+                  }}
+                  deleteComment={(id)=> {
+                    this.deleteComment(id)
+                  }}
+                  voteComment={(id, vote)=> {
+                    this.voteOnComment(id, vote)
+                  }}
+                  // edit={this.state.editComment}
+               />
+             </div>
          </div>
          <Modal
           className='modal'
@@ -138,11 +145,10 @@ closeCommentsModal = () => this.setState(() => ({ modalOpen: false }))
           contentLabel='Modal'
         >
           <div>
-            <h1></h1>
             <button
              className='close-modal'
              onClick={this.closeCommentsModal}>
-               Close Modal
+               <Glyphicon glyph="remove" />
            </button>
           </div>
           <AddComment
@@ -159,6 +165,7 @@ closeCommentsModal = () => this.setState(() => ({ modalOpen: false }))
            />
         </Modal>
 
+      </div>
       </div>
     )
   }

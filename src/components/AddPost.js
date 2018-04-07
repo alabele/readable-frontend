@@ -13,7 +13,6 @@ class AddPost extends Component {
 		authorValue: '',
 		categoryValue: 'none',
 		editPost: false,
-		//editPostId: '',
 		postId: uuidv4(),
 		postDate: Date.now()
 	}
@@ -40,7 +39,6 @@ componentDidMount() {
 createPost(title, body, author, category, id, timestamp) {
   const { dispatch } = this.props
     dispatch(createNewPost(title, body, author, category, id, timestamp))
-    //console.log(title)
     alert("Thanks for submitting your post!")
     this.setState({
       	titleValue: '',
@@ -58,17 +56,15 @@ createPost(title, body, author, category, id, timestamp) {
 	    const target = event.target;
 	    const value =  target.value;
 	    const name = target.name;
-	    //console.log(value)
 	    this.setState({
 	      [name]: value
 	    });
 	  }
 
 	render() {
-		//const date = Date.now()
 		const {titleValue, bodyValue, authorValue, categoryValue, postDate, postId, editPost} = this.state
-		const uuidv4 = require('uuid/v4');
-		let myuuid = uuidv4()
+		//const uuidv4 = require('uuid/v4');
+		//let myuuid = uuidv4()
 		// Thx React Docs! https://reactjs.org/docs/conditional-rendering.html
 		let categorySelect = null;
 		    if (this.props.categories === undefined) {
@@ -89,16 +85,16 @@ createPost(title, body, author, category, id, timestamp) {
 		let header = null;
 	     if (editPost === true) {
 	      	nonEditInputs =
-	      	<span>
-	      		<span>Author:{authorValue}</span>
-				<span>Category:{categoryValue}</span>
+	      	<span className="author-edit">
+	      		<span>AUTHOR:{authorValue}</span>
+				<span>CATEGORY:{categoryValue}</span>
 			</span>
 			header = <h1>Edit Post</h1>
 	    }
 		else {
 	      nonEditInputs =
 		      <span>
-	      		<label>Author:</label><input type="text" value={authorValue} name="authorValue" onChange={this.handleInputChange}></input>
+	      		<label>Author:<input type="text" value={authorValue} name="authorValue" onChange={this.handleInputChange}></input></label>
 				<label>Category:{categorySelect}</label>
 			</span>
 			header = <h1>Add New Post</h1>
@@ -106,9 +102,9 @@ createPost(title, body, author, category, id, timestamp) {
 
 
 		return(
-			<div>
+			<div class="add-post-page">
 				{header}
-				<label>Post Title:</label><input type="text" value={titleValue} name="titleValue" onChange={this.handleInputChange}></input>
+				<label>Post Title:<input type="text" value={titleValue} name="titleValue" onChange={this.handleInputChange}></input></label>
 				{nonEditInputs}
 				<label>
       				Post:

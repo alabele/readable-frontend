@@ -71,7 +71,7 @@ export function fetchComments(id) {
 
 
 //When user uses dropdown menu to filter posts by category
-export const getCategoryPosts = posts => ({
+export const getCategoryPosts = (posts) => ({
   type: GET_CATEGORY_POSTS,
   posts
 });

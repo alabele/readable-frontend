@@ -19,7 +19,7 @@ import {
 
 
 function posts (state = {} , action) {
-  const {posts, id, body, title, author, category, timestamp, newPost, vote } = action
+  const {posts, newPost, vote } = action
   // const {myPost = state.list.filter(c =>c.id === id)}
   switch (action.type) {
     case RECEIVE_POSTS:
@@ -30,45 +30,13 @@ function posts (state = {} , action) {
     case GET_CATEGORY_POSTS:
       return {
         ...state,
-        list: state.list.concat(posts),
+        categoryList: posts,
       }
     case ADD_POST:
       return {
         ...state,
        list: state.list.concat(newPost)
       }
-    // case UPDATE_POST:
-    //   return state.map((todo, index) => {
-    //     if (index === action.index) {
-    //       return Object.assign({}, todo)
-    //     }
-    //     return todo
-    //   })
-     // case UPDATE_POST:
-     //  return Object.assign({}, state, {
-     //    list: state.list.map((item) => {
-     //      if (item.id === action.id) {
-     //        return Object.assign({}, item, {
-     //          body: body,
-     //          title: title
-     //        })
-     //      }
-     //      return item
-     //    })
-     //  })
-    // case UPDATE_POST:
-    // return {
-    //   //...state,
-    //     list: state.list.map((item) => {
-    //       if (item.id === action.id) {
-    //         return {
-    //           body: action.body,
-    //           title: action.title
-    //         }
-    //       }
-    //       //return item
-    //     })
-    // }
     case UPDATE_POST:
     return {
         list: state.list.map((item) => {
@@ -78,6 +46,7 @@ function posts (state = {} , action) {
               title: action.title
             }
           }
+          //return item
         })
     }
     case VOTE_POST:
@@ -110,9 +79,6 @@ function categories (state = {} , action) {
   const { categories } = action
   switch (action.type) {
     case RECEIVE_CATEGORIES:
-      // return Object.assign({}, state, {
-      //   items: action.categories,
-      // })
       return {
         ...state,
          list: categories
@@ -124,7 +90,7 @@ function categories (state = {} , action) {
 
 
 function comments (state = {} , action) {
-  const {comments, newComment, id, body, timestamp, vote} = action
+  const {comments, newComment, body, timestamp, vote} = action
   switch (action.type) {
     case RECEIVE_COMMENTS:
       return {

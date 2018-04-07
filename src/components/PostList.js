@@ -1,5 +1,6 @@
 import React  from 'react'
 import {Link} from 'react-router-dom'
+import { Glyphicon } from 'react-bootstrap';
 //With help from: https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
 function dynamicSort(filter) {
@@ -25,7 +26,6 @@ function dynamicSort(filter) {
 
 
 function PostList({posts,orderBy, votePost}) {
-  console.log("Post List Props", posts)
 
   let showingPosts =[]
   if (orderBy === "default") {
@@ -36,7 +36,7 @@ function PostList({posts,orderBy, votePost}) {
 
    }
    //If posts is undefined (i.e. the API hasn't been called yet)
-	if (posts === undefined) {
+	if (posts === undefined || posts.length === 0) {
     return <p>No posts found :(</p>
   }
   //If posts array exists (i.e. API has been called)
@@ -46,13 +46,13 @@ function PostList({posts,orderBy, votePost}) {
         {showingPosts.map((p) =>
             <li key={p.id}>
               <Link to={'/posts/' + p.id}><h4>{p.title}</h4></Link>
-              <span className="post-category">{p.category}</span>
-              <span className="post-timestamp">{p.timestamp}</span>
+              <div className="post-category">{p.category}</div>
+              <div className="post-timestamp">{Date(p.timestamp).toString()}</div>
               <p>{p.body}</p>
-              <span>Vote Score: {p.voteScore}</span>
-              <button className="upVote" onClick={(event)=> votePost(p.id, 'upVote')}>Up Vote</button>
-              <button className="downVote" onClick={(event)=> votePost(p.id, 'downVote')}>Down Vote</button>
-              <span>There are {p.commentCount} Comment(s)</span>
+              <div className="voteScore">Vote Score: {p.voteScore}</div>
+              <button className="upVote" onClick={(event)=> votePost(p.id, 'upVote')}><Glyphicon glyph="thumbs-up" /> </button>
+              <button className="downVote" onClick={(event)=> votePost(p.id, 'downVote')}><Glyphicon glyph="thumbs-down" /> </button>
+              <div className="commentCount">There are {p.commentCount} Comment(s)</div>
             </li>
           )}
       </ol>

@@ -26,7 +26,6 @@ handleChange(id, event) {
           <option value="title">Title</option>
           <option value="category">Category</option>
         </select>
-        {console.log("Shelf State", this.state.value)}
         </div>
     );
   }

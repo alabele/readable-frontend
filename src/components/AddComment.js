@@ -1,19 +1,15 @@
 import React, {Component} from 'react'
 import {createNewComment, editExistingComment} from "../actions"
-import {fetchSinglePost} from '../utils/api'
+//import {fetchSinglePost} from '../utils/api'
 //import 'uuid/v4' from 'uuid'
 
-const uuidv4 = require('uuid/v4');
+//const uuidv4 = require('uuid/v4');
 
 class AddComment extends Component {
 
 	state = {
 		bodyValue: this.props.commentBody,
 		authorValue:this.props.commentAuthor,
-		// commentId: uuidv4(),
-		// parentId: this.props.postId,
-		// timestamp: Date.now(),
-		// voteScore: 0,
 	}
 
 
@@ -36,7 +32,7 @@ editComment(id, body, timestamp) {
 //updateComment = this.updateComment();
 updateComment() {
 	this.setState({
-	     bodyValue: "LAUREN IS QWEEN",
+	     bodyValue: "",
 
     });
     console.log(this.state.bodyValue)
@@ -56,9 +52,9 @@ updateComment() {
 
 	render() {
 		const {bodyValue, authorValue } = this.state
-		const {commentBody, commentAuthor, commentId, commentTimestamp, postId, editComment} = this.props
-		const uuidv4 = require('uuid/v4');
-		let myuuid = uuidv4()
+		const {commentId, commentTimestamp, postId} = this.props
+		//const uuidv4 = require('uuid/v4');
+		//let myuuid = uuidv4()
 		// Thx React Docs! https://reactjs.org/docs/conditional-rendering.html
 		 let submitButton = null;
 		     if (this.props.edit === true) {
@@ -77,8 +73,8 @@ updateComment() {
 
 		return(
 			<div>
-				<h1>Add New Comment</h1>
-				<label>Author:</label><input type="text" value={authorValue} name="authorValue" onChange={this.handleInputChange}></input>
+				<h1>Add Comment</h1>
+				<label>Author:<input type="text" value={authorValue} name="authorValue" onChange={this.handleInputChange}></input></label>
 				<label>
       				Comment:
           			<textarea type="text" value={bodyValue} name="bodyValue" onChange={this.handleInputChange} />

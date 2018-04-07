@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
-import Modal from 'react-modal'
-import {fetchComments} from '../actions'
+import { Glyphicon } from 'react-bootstrap';
 
 class PostComments extends Component {
-  state = {
-   modalOpen: false,
-  }
 
   render() {
     const {comments, postId, editComment, deleteComment, voteComment} = this.props
@@ -16,25 +12,20 @@ class PostComments extends Component {
     else {
       return (
         <ol>
-          {comments.filter((c) => c.parentId === postId & c.deleted == false).map((c)=>
+          {comments.filter((c) => c.parentId === postId & c.deleted === false).map((c)=>
             <li key={c.id}>
               <p>{c.body}</p>
               <span className="comment-author">By: {c.author}</span>
               <span className="comment-score">Vote Score: {c.voteScore}</span>
-              <button id="upVote" onClick={(event)=> voteComment(c.id, 'upVote')}>Up Vote</button>
-              <button id="downVote" onClick={(event)=> voteComment(c.id, 'downVote')}>Down Vote</button>
-              <button id="editComment" onClick={(event)=> editComment(c.id, c.author, c.body, c.voteScore)}>Edit Comment</button>
-               <button id="deleteComment" onClick={(event)=> deleteComment(c.id)}>Delete Comment</button>
+              <button class="upVote" onClick={(event)=> voteComment(c.id, 'upVote')}><Glyphicon glyph="thumbs-up" /> </button>
+              <button class="downVote" onClick={(event)=> voteComment(c.id, 'downVote')}><Glyphicon glyph="thumbs-down" /> </button>
+              <button class="editComment" onClick={(event)=> editComment(c.id, c.author, c.body, c.voteScore)}>Edit Comment</button>
+               <button class="deleteComment" onClick={(event)=> deleteComment(c.id)}>Delete Comment</button>
             </li>
           )}
         </ol>
      )}
 
-    return (
-      <div className='container'>
-
-      </div>
-    )
   }
 }
 

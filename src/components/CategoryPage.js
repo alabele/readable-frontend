@@ -1,52 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
 import CategoryList from './CategoryList'
 import PostList from './PostList'
 import OrderByForm from './OrderByForm'
 import {Link} from 'react-router-dom'
-
-function CategoryPage({posts, orderBy, categories, modifyOrder, fetchCategoryPosts, path, votePost}) {
-    // let new_posts = []
-    // if (path === 'default') {
-
-    // } else {
-    //   new_posts = fetchCategoryPosts("react")
-    // }
+import { Glyphicon } from 'react-bootstrap';
+//import {fetchCategoryPosts} from '../actions'
 
 
 
+class CategoryPage extends Component {
 
+
+render() {
+  const {posts, orderBy, categories, modifyOrder, urlPath, votePost, modifyPath} = this.props;
     return (
       <div className="category-page">
-        <Link
-            to="/create">
-            Add a post
-        </Link>
-        <div className="all-categories">
-          <CategoryList
-            categories={categories}
-            myFunc={fetchCategoryPosts}
-          />
-        </div>
-        <div className="add-post">
-          <Link
-            to="/create">
-            Add a post
-          </Link>
-        </div>
-        <div className="all-posts">
-          <h1>Check out these awesome posts!</h1>
-          <OrderByForm
-            orderBy={orderBy}
-            myFunc={modifyOrder}
-          />
-          <PostList
-            posts={posts}
-            votePost={votePost}
-            orderBy={orderBy}
-          />
-        </div>
+        <div className="page-inner">
+          <div className="all-categories">
+            <CategoryList
+              categories={categories}
+              myFunc={modifyPath}
+              urlPath= {urlPath}
+            />
+          </div>
+          <div className="add-post">
+            <Link
+              to="/create">
+              <Glyphicon glyph="plus" />
+              Add a post
+            </Link>
+          </div>
+          <div className="all-posts">
+            <h1>My Posts: Words to live by</h1>
+            <OrderByForm
+              orderBy={orderBy}
+              myFunc={modifyOrder}
+            />
+            <PostList
+              posts={posts}
+              votePost={votePost}
+              orderBy={orderBy}
+            />
+          </div>
+         </div>
       </div>
     );
+  }
 }
-
 export default CategoryPage;
